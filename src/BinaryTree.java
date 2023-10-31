@@ -1,9 +1,14 @@
 package src;
 
-class BinaryTree {
-    private static TreeNode root = null;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
-    static class TreeNode {
+class BinaryTree {
+    private TreeNode root = null;
+
+    class TreeNode {
         String val;
         TreeNode left;
         TreeNode right;
@@ -19,9 +24,9 @@ class BinaryTree {
         }
     }
 
-    public static void insert(String name) { // insert with iteration method and without returning the node
-        if (root == null) {
-            root = new TreeNode(name);
+    public void insert(String name) { // insert with iteration method and without returning the node
+        if (this.root == null) {
+            this.root = new TreeNode(name);
         } else {
             TreeNode current = root;
             TreeNode prev = current;
@@ -41,20 +46,24 @@ class BinaryTree {
         }
     }
 
-    public static void traverse() {
-        if (root == null) {
-            System.out.println("No names found");
-        } else {
-            traverseHelper(root);
-        }
-    }
-
-    public static void traverseHelper(TreeNode node) { // helper method
-        if (node == null) {
+    public void traverse() {
+        if (this.root == null) {
             return;
         }
-        traverseHelper(node.left);
-        System.out.println(node.val);
-        traverseHelper(node.right);
+        traverseHelper(this.root);
+    }
+
+    public void traverseHelper(TreeNode current) {
+        if (current == null) {
+            return;
+        }
+        traverseHelper(current.left);
+        System.out.println(current.val);
+        traverseHelper(current.right);
+
+    }
+
+    public int search() {
+        return -1; // add method
     }
 }

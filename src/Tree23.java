@@ -1,11 +1,11 @@
 package src;
 
 class Tree23 { // num children t-2t, num keys t-1 - 2t-1
-    private static TreeNode root;
+    private TreeNode root;
 
-    static class TreeNode {
+    class TreeNode {
         String[] keys = new String[3]; // each node contains keys and has an array of children nodes
-        TreeNode[] children = new TreeNode[4]; // don't know if can initialize it like this
+        TreeNode[] children = new TreeNode[4];
         TreeNode parent = null;
         boolean isLeaf;
         int numKeys;
@@ -17,15 +17,15 @@ class Tree23 { // num children t-2t, num keys t-1 - 2t-1
         }
     }
 
-    public static void insert(String name) {
-        if (root == null) {
-            root = new TreeNode(true, name);
+    public void insert(String name) {
+        if (this.root == null) {
+            this.root = new TreeNode(true, name);
         } else {
             insertHelper(name, root);
         }
     }
 
-    private static TreeNode split(String name, TreeNode current, TreeNode parent) {
+    private TreeNode split(String name, TreeNode current, TreeNode parent) { // extra method to split
         TreeNode tempNode = null; // to be reassigned later
         while (current.numKeys == 3) {
             TreeNode leftNode = new TreeNode(current.isLeaf, current.keys[0]);
@@ -89,7 +89,7 @@ class Tree23 { // num children t-2t, num keys t-1 - 2t-1
         return tempNode;
     }
 
-    private static void insertHelper(String name, TreeNode current) {
+    private void insertHelper(String name, TreeNode current) {
 
         if (current.numKeys == 3) {
             current = split(name, current, current.parent); // update current
@@ -128,54 +128,17 @@ class Tree23 { // num children t-2t, num keys t-1 - 2t-1
             current.keys[k] = name;
             current.numKeys++;
         }
-
-        /////////////////////////////////////////////////////////////////////////////
-        /*
-         * else { // if full need to split key
-         * TreeNode leftNode = new TreeNode(current.isLeaf, current.keys[0]);
-         * TreeNode rightNode = new TreeNode(current.isLeaf, current.keys[2]);
-         * String median = current.keys[1]; // how to recurse back up to connect to
-         * parent?
-         * 
-         * // use split method here, now we need to do something about current key
-         * array[]
-         * 
-         * if (name.compareTo(median) < 0) { // case 1: median is greater than insertion
-         * name
-         * int lKeys = leftNode.numKeys++;
-         * if (name.compareTo(leftNode.keys[0]) < 0) {
-         * leftNode.keys[1] = leftNode.keys[0];
-         * leftNode.keys[0] = name;
-         * } else {
-         * leftNode.keys[1] = name;
-         * }
-         * } else { // case 1: median is greater than insertion name
-         * int rKeys = rightNode.numKeys++;
-         * if (name.compareTo(rightNode.keys[0]) < 0) {
-         * rightNode.keys[1] = rightNode.keys[0];
-         * rightNode.keys[0] = name;
-         * } else {
-         * rightNode.keys[1] = name;
-         * }
-         * }
-         * 
-         * current.children[0] = leftNode;
-         * current.children[1] = rightNode;
-         * current[numKeys++] =
-         * }
-         */
-
     }
 
-    public static void traverse() {
-        if (root == null) {
+    public void traverse() {
+        if (this.root == null) {
             System.out.println("No names found");
         } else {
-            traverseHelper(root);
+            traverseHelper(this.root);
         }
     }
 
-    private static void traverseHelper(TreeNode current) {
+    private void traverseHelper(TreeNode current) {
         if (current != null) {
             int i;
             for (i = 0; i < current.numKeys; i++) { // go through the keys
@@ -187,6 +150,27 @@ class Tree23 { // num children t-2t, num keys t-1 - 2t-1
             if (!current.isLeaf) {
                 traverseHelper(current.children[i]); // traverse the right children
             }
+        }
+    }
+
+    public int search(String name) {
+        if (this.root == null) {
+            return -1;
+        } else {
+            return searchHelper(root, name);
+        }
+    }
+
+    public int searchHelper(TreeNode current, String name) {
+        int i = 0;
+        while (i < current.numKeys && name.compareTo(current.keys[i]) > 0)
+            i++;
+        if (i < current.numKeys && name.equals(current.keys[i]))
+            return i;
+        if (current.isLeaf)
+            return -1;
+        else {
+            return searchHelper(current.children[i], name);
         }
     }
 }
