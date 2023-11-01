@@ -63,7 +63,17 @@ class BinaryTree {
 
     }
 
-    public int search() {
-        return -1; // add method
+    public boolean search(String name) {
+        if (this.root == null) return false;
+        else return searchHelper(name, this.root);        
+    }
+
+    public boolean searchHelper(String name, TreeNode current) {
+        if (current == null) {
+            if (current.val == name) return true;
+            else if (current.val.compareTo(name) > 0) return searchHelper(name, current.left);
+            else if (current.val.compareTo(name) < 0) return searchHelper(name, current.right);
+        }
+        return false;
     }
 }
