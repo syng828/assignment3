@@ -24,6 +24,12 @@ class BinaryTree {
         }
     }
 
+    public void clear() { // clear the tree to build again
+        this.root = null;
+    }
+
+    /////////////////////////// INSERTION
+
     public void insert(String name) { // insert with iteration method and without returning the node
         if (this.root == null) {
             this.root = new TreeNode(name);
@@ -46,9 +52,10 @@ class BinaryTree {
         }
     }
 
+    /////////////////////////// TRAVERSE
     public void traverse() {
         if (this.root == null) {
-            return;
+            System.out.println("Empty tree.");
         }
         traverseHelper(this.root);
     }
@@ -60,7 +67,6 @@ class BinaryTree {
         traverseHelper(current.left);
         System.out.println(current.val);
         traverseHelper(current.right);
-
     }
 
     public boolean search(String name) {
@@ -81,6 +87,8 @@ class BinaryTree {
         }
         return false;
     }
+
+    /////////////////////////// DELETION
 
     public void delete(String name) {
         TreeNode parent = null;
